@@ -55,8 +55,11 @@ class WAAccessibilityService : AccessibilityService() {
 
             if (source.getPackageName().equals("com.whatsapp")) {
                 val currentNode = rootInActiveWindow
+                val node = currentNode.findAccessibilityNodeInfosByViewId("com.whatsapp:id/send").firstOrNull()
 
-                currentNode.findAccessibilityNodeInfosByViewId("com.whatsapp:id/send").first().performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                if(node!= null) {
+                    node.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                }
 
                 //currentNode.findAccessibilityNodeInfosByViewId("com.whatsapp:id/back").first().performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 //currentNode.findAccessibilityNodeInfosByViewId("com.whatsapp:id/search").first().performAction(AccessibilityNodeInfo.ACTION_CLICK)
@@ -67,15 +70,20 @@ class WAAccessibilityService : AccessibilityService() {
     fun handleNotificationStateChangedOnEvent(event: AccessibilityEvent) {
         var name = ""
 
-        if (event.getEventType() === AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+        if (event.eventType === AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
 
             if (event.getPackageName().toString().equals("com.whatsapp")) {
+                Log.d(TAG, event.getText().toString())
 
                 val message = StringBuilder()
                 if (!event.getText().isEmpty()) {
+
                     for (subText in event.getText()) {
                         message.append(subText)
                     }
+
+                    // Change the text here to "Mensaje de" depending on the language settings
+                    // to retrieve the message body on the notification
                     if (message.toString().contains("Message from")) {
                         name = message.toString().substring(13)
                     }
