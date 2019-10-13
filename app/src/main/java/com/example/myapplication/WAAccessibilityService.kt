@@ -32,6 +32,7 @@ class WAAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        var event = event ?: return
 
         Log.d(TAG, "Node: " + event.getEventType())
         Log.d(TAG, "TYPE_NOTIFICATION_STATE_CHANGED: " + AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED)
