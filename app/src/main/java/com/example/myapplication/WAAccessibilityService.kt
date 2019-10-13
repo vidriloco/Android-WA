@@ -12,7 +12,13 @@ class WAAccessibilityService : AccessibilityService() {
     override fun onInterrupt() {}
 
     public override fun onServiceConnected() {
-
+        val info = AccessibilityServiceInfo()
+        info.eventTypes = AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED
+        info.eventTypes = AccessibilityEvent.TYPES_ALL_MASK
+        info.feedbackType = AccessibilityServiceInfo.FEEDBACK_ALL_MASK
+        info.notificationTimeout = 100
+        info.packageNames = null
+        serviceInfo = info
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
